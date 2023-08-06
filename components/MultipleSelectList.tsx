@@ -11,9 +11,14 @@ import {
     ViewStyle,
     Pressable} from 'react-native';
 
-import { MultipleSelectListProps } from '..';
+import { MultipleSelectListProps, GenericResolver, L1Keys } from '..';
 
-type L1Keys = { key?: any; value?: any; disabled?: boolean | undefined }
+function resolveStyles<T extends unknown[], R, Resolver extends GenericResolver<T, R>>(resolver: Resolver, ...args: T): R {
+    if (typeof resolver == 'function') {
+        return resolver(...args);
+    }
+    return resolver as R;
+}
 
 const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
         fontFamily,
@@ -174,8 +179,8 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
                                 {
                                     selectedval?.map((item,index) => {
                                         return (
-                                            <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10}, badgeStyles]}>
-                                                <Text style={[{color:'white',fontSize:12,fontFamily}, badgeTextStyles]}>{item}</Text>
+                                            <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10}, resolveStyles(badgeStyles, item)]}>
+                                                <Text style={[{color:'white',fontSize:12,fontFamily}, resolveStyles(badgeTextStyles, item)]}>{item}</Text>
                                             </View>
                                         )
                                     })
@@ -217,8 +222,8 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
                                         let disabled = item.disabled ?? false;
                                         if(disabled){
                                             return(
-                                                <TouchableOpacity style={[styles.disabledoption,disabledItemStyles]} key={index}>
-                                                    <View style={[{width:15,height:15,marginRight:10,borderRadius:3,justifyContent:'center',alignItems:'center',backgroundColor:'#c4c5c6'},disabledCheckBoxStyles]}>
+                                                <TouchableOpacity style={[styles.disabledoption,resolveStyles(disabledItemStyles, item)]} key={index}>
+                                                    <View style={[{width:15,height:15,marginRight:10,borderRadius:3,justifyContent:'center',alignItems:'center',backgroundColor:'#c4c5c6'},resolveStyles(disabledCheckBoxStyles, item)]}>
                                                         
                                                         {
                                                             (selectedval?.includes(value))
@@ -236,12 +241,12 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
 
                                                         }
                                                     </View>
-                                                    <Text style={[{fontFamily,color:'#c4c5c6'},disabledTextStyles]}>{value}</Text>
+                                                    <Text style={[{fontFamily,color:'#c4c5c6'},resolveStyles(disabledTextStyles, item)]}>{value}</Text>
                                                 </TouchableOpacity>
                                             )
                                         }else{
                                             return(
-                                                <TouchableOpacity style={[styles.option,dropdownItemStyles]} key={index} onPress={ () => {
+                                                <TouchableOpacity style={[styles.option,resolveStyles(dropdownItemStyles, item)]} key={index} onPress={ () => {
 
                                                     
                                                     let existing = selectedval?.indexOf(value)
@@ -288,7 +293,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
                                                     
                                                     
                                                 }}>
-                                                    <View style={[{width:15,height:15,borderWidth:1,marginRight:10,borderColor:'gray',borderRadius:3,justifyContent:'center',alignItems:'center'},checkBoxStyles]}>
+                                                    <View style={[{width:15,height:15,borderWidth:1,marginRight:10,borderColor:'gray',borderRadius:3,justifyContent:'center',alignItems:'center'},resolveStyles(checkBoxStyles, item)]}>
                                                         
                                                         {
                                                             (selectedval?.includes(value))
@@ -310,20 +315,20 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
                                                         
                                                         
                                                     </View>
-                                                    <Text style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
+                                                    <Text style={[{fontFamily},resolveStyles(dropdownTextStyles, item)]}>{value}</Text>
                                                 </TouchableOpacity>
                                             )
                                         }
                                         
                                     })
                                     :
-                                    <TouchableOpacity style={[styles.option,dropdownItemStyles]} onPress={ () => {
+                                    <TouchableOpacity style={[styles.option,resolveStyles(dropdownItemStyles, {})]} onPress={ () => {
                                         setSelected(undefined)
                                         setSelectedVal("")
                                         slideup()
                                         setTimeout(() => setFilteredData(data), 800)  
                                     }}>
-                                        <Text style={dropdownTextStyles}>{notFoundText}</Text>
+                                        <Text style={resolveStyles(dropdownTextStyles, {})}>{notFoundText}</Text>
                                     </TouchableOpacity>
                                 }
                                 
@@ -344,8 +349,8 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
                                                 {
                                                     selectedval?.map((item,index) => {
                                                         return (
-                                                            <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10},badgeStyles]}>
-                                                                <Text style={[{color:'white',fontSize:12,fontFamily},badgeTextStyles]}>{item}</Text>
+                                                            <View key={index} style={[{backgroundColor:'gray',paddingHorizontal:20,paddingVertical:5,borderRadius:50,marginRight:10,marginTop:10},resolveStyles(badgeStyles, item)]}>
+                                                                <Text style={[{color:'white',fontSize:12,fontFamily},resolveStyles(badgeTextStyles, item)]}>{item}</Text>
                                                             </View>
                                                         )
                                                     })

@@ -2,6 +2,9 @@
 import type * as React from "react";
 import { ViewStyle, TextStyle } from 'react-native';
 
+export type GenericResolver<T extends Array<unknown>, R> = R | ((...arg1: T) => R);
+export type L1Keys = { key?: any; value?: any; disabled?: boolean | undefined }
+
 export interface SelectListProps  {
     /**
     * Fn to set Selected option value which will be stored in your local state
@@ -26,17 +29,17 @@ export interface SelectListProps  {
     /**
     *  	Additional styles for dropdown scrollview
     */
-    dropdownStyles?:ViewStyle,
+    dropdownStyles?: ViewStyle,
 
     /**
     *  Additional styles for dropdown list item
     */
-    dropdownItemStyles?: ViewStyle,
+    dropdownItemStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for list items text
     */
-    dropdownTextStyles?: TextStyle,
+    dropdownTextStyles?: GenericResolver<[L1Keys & any], TextStyle>,
 
     /**
     * Maximum height of the dropdown wrapper to occupy
@@ -46,7 +49,7 @@ export interface SelectListProps  {
     /**
     * Data which will be iterated as options of select list
     */
-    data: Array<{}>,
+    data: Array<L1Keys & any>,
 
     /**
     * The default option of the select list
@@ -91,12 +94,12 @@ export interface SelectListProps  {
     /**
     * Additional styles for disabled list item
     */
-    disabledItemStyles?: ViewStyle,
+    disabledItemStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for disabled list items text
     */
-    disabledTextStyles?: TextStyle,
+    disabledTextStyles?: GenericResolver<[L1Keys & any], TextStyle>,
 
     /**
     * What to store inside your local state (key or value)
@@ -139,17 +142,17 @@ export interface MultipleSelectListProps  {
     /**
     *  	Additional styles for dropdown scrollview 
     */
-    dropdownStyles?:ViewStyle,
+    dropdownStyles?: ViewStyle,
 
     /**
     *  Additional styles for dropdown list item
     */
-    dropdownItemStyles?: ViewStyle,
+    dropdownItemStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for list items text
     */
-    dropdownTextStyles?: TextStyle,
+    dropdownTextStyles?: GenericResolver<[L1Keys & any], TextStyle>,
 
     /**
     * Maximum height of the dropdown wrapper to occupy
@@ -209,23 +212,23 @@ export interface MultipleSelectListProps  {
     /**
     * Additional styles for disabled list item
     */
-    disabledItemStyles?: ViewStyle,
+    disabledItemStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for disabled list items text
     */
-    disabledTextStyles?: TextStyle,
+    disabledTextStyles?: GenericResolver<[L1Keys & any], TextStyle>,
 
 
     /**
     * Additional styles for disabled checkbox
     */
-    disabledCheckBoxStyles?: ViewStyle,
+    disabledCheckBoxStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for checkbox
     */
-    checkBoxStyles?: ViewStyle,
+    checkBoxStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * What to store inside your local state (key or value)
@@ -246,12 +249,12 @@ export interface MultipleSelectListProps  {
     /**
     * Additional styles for multiselect badge
     */
-    badgeStyles?: ViewStyle,
+    badgeStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for multiselect badge text
     */
-    badgeTextStyles?: ViewStyle,
+    badgeTextStyles?: GenericResolver<[L1Keys & any], ViewStyle>,
 
     /**
     * Additional styles for label

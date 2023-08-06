@@ -9,10 +9,14 @@ import {
     Animated,
     TextInput,
 } from 'react-native';
+import { SelectListProps, GenericResolver, L1Keys } from '..';
 
-import { SelectListProps } from '..';
-
-type L1Keys = { key?: any; value?: any; disabled?: boolean | undefined }
+function resolveStyles<T extends unknown[], R, Resolver extends GenericResolver<T, R>>(resolver: Resolver, ...args: T): R {
+    if (typeof resolver == 'function') {
+        return resolver(...args);
+    }
+    return resolver as R;
+}
 
 const SelectList: React.FC<SelectListProps> =  ({
         setSelected,
@@ -114,8 +118,6 @@ const SelectList: React.FC<SelectListProps> =  ({
         
     },[dropdownShown])
 
-
-
     return(
         <View>
             {
@@ -200,13 +202,13 @@ const SelectList: React.FC<SelectListProps> =  ({
                                     let disabled = item.disabled ?? false;
                                     if(disabled){
                                         return(
-                                            <TouchableOpacity style={[styles.disabledoption,disabledItemStyles]} key={index} onPress={ () => {}}>
-                                                <Text style={[{color:'#c4c5c6',fontFamily},disabledTextStyles]}>{value}</Text>
+                                            <TouchableOpacity style={[styles.disabledoption,resolveStyles(disabledItemStyles, item)]} key={index} onPress={ () => {}}>
+                                                <Text style={[{color:'#c4c5c6',fontFamily}, resolveStyles(disabledTextStyles, item)]}>{value}</Text>
                                             </TouchableOpacity>
                                         )
                                     }else{
                                         return(
-                                            <TouchableOpacity style={[styles.option,dropdownItemStyles]} key={index} onPress={ () => {
+                                            <TouchableOpacity style={[styles.option, resolveStyles(dropdownItemStyles, item)]} key={index} onPress={ () => {
                                                 if(save === 'value'){
                                                     setSelected(value);
                                                 }else{
@@ -218,21 +220,21 @@ const SelectList: React.FC<SelectListProps> =  ({
                                                 setTimeout(() => {setFilteredData(data)}, 800)
                                                 
                                             }}>
-                                                <Text style={[{fontFamily},dropdownTextStyles]}>{value}</Text>
+                                                <Text style={[{fontFamily}, resolveStyles(dropdownTextStyles, item)]}>{value}</Text>
                                             </TouchableOpacity>
                                         )
                                     }
                                     
                                 })
                                 :
-                                <TouchableOpacity style={[styles.option,dropdownItemStyles]} onPress={ () => {
+                                <TouchableOpacity style={[styles.option,resolveStyles(dropdownItemStyles, {})]} onPress={ () => {
                                     setSelected(undefined)
                                     setSelectedVal("")
                                     slideup()
                                     setTimeout(() => setFilteredData(data), 800)
                                     
                                 }}>
-                                    <Text style={[{fontFamily},dropdownTextStyles]}>{notFoundText}</Text>
+                                        <Text style={[{ fontFamily }, resolveStyles(dropdownTextStyles, {})]}>{notFoundText}</Text>
                                 </TouchableOpacity>
                             }
                             
