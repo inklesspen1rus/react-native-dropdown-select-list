@@ -12,13 +12,7 @@ import {
     Pressable} from 'react-native';
 
 import { MultipleSelectListProps, GenericResolver, L1Keys } from '..';
-
-function resolveStyles<T extends unknown[], R, Resolver extends GenericResolver<T, R>>(resolver: Resolver, ...args: T): R {
-    if (typeof resolver == 'function') {
-        return resolver(...args);
-    }
-    return resolver as R;
-}
+import { resolveStyles } from '../util/resolveStyles';
 
 const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
         fontFamily,

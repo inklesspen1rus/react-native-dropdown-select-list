@@ -10,13 +10,7 @@ import {
     TextInput,
 } from 'react-native';
 import { SelectListProps, GenericResolver, L1Keys } from '..';
-
-function resolveStyles<T extends unknown[], R, Resolver extends GenericResolver<T, R>>(resolver: Resolver, ...args: T): R {
-    if (typeof resolver == 'function') {
-        return resolver(...args);
-    }
-    return resolver as R;
-}
+import { resolveStyles } from '../util/resolveStyles';
 
 const SelectList: React.FC<SelectListProps> =  ({
         setSelected,
