@@ -4,5 +4,5 @@ export function resolveStyles<T extends unknown[], R, Resolver extends GenericRe
     if (typeof resolver == 'function') {
         return resolver(...args);
     }
-    return resolver as R;
+    return resolver as any as R;
 }
